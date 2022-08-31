@@ -40,6 +40,9 @@ namespace BreakVideoLoop.Domain
                 if (result is not null && result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var stringResult = await result.Content?.ReadAsStringAsync();
+                    var html = new HtmlAgilityPack.HtmlDocument();
+                    html.LoadHtml(stringResult);
+
                     if (!string.IsNullOrEmpty(stringResult))
                         return JsonConvert.DeserializeObject<DictionaryModel[]>(stringResult)?.FirstOrDefault();
                 }
